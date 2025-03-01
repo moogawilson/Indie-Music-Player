@@ -4,17 +4,18 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Song } from "@/utils/backendAPI";
 import styles from "./page.module.css";
+import { fetchTopSongs } from "@/utils/backendAPI";
 
 import SongList from "@/components/songList/SongList";
 export default function Page() {
-  const [likedSongs, setLikedSongs] = useState<Song[]>();
+  const [topSongs, setTopSongs] = useState<Song[]>();
   useEffect(() => {
-    async function getLikedSongs() {
-      const likedSongs = await fetchLikedSongs();
-      setLikedSongs(likedSongs);
+    async function getTopSongs() {
+      const topSongs = await fetchTopSongs();
+      setTopSongs(topSongs);
     }
 
-    getLikedSongs();
+    getTopSongs();
   }, []);
 
   return (
@@ -22,14 +23,14 @@ export default function Page() {
       <div className={styles.topBanner}>
         <Image
           className={styles.likeImage}
-          src={"/like.png"}
+          src={"/trending.png"}
           alt="like button"
           width={200}
           height={200}
         ></Image>
-        <h1 className={styles.text}>The good shit...</h1>
+        <h1 className={styles.text}>the popular shit</h1>
       </div>
-      <SongList songs={likedSongs} />
+      <SongList songs={topSongs} />
     </div>
   );
 }

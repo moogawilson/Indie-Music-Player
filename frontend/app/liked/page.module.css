@@ -1,5 +1,5 @@
 .songContainer {
-  background-color: blue;
+  /* background-color: blue; */
 }
 
 .songName {
@@ -38,7 +38,7 @@
   gap: 0.3rem;
 }
 .listItem {
-  background-color: rgb(16, 91, 156);
+  /* background-color: rgb(16, 91, 156); */
   display: flex;
 
   flex-direction: row;
@@ -47,4 +47,33 @@
   height: 5rem;
   width: 100%;
   border-radius: 15px;
+}
+
+.topBanner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5rem; /* Adds space between text and image */
+}
+
+.songsContainer {
+  background-color: rgba(44, 44, 44, 0.35);
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.text {
+  display: flex;
+  position: relative;
+  /* flex: 1 1 auto; */
+  font-size: 4rem;
+}
+
+.likeImage {
+  flex-shrink: 0;
+  height: auto;
+  max-width: 100%;
+  /* display; */
+  /* position: relative; */
 }

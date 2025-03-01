@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import createApiClient from "./apiClient";
+import { formatSongs } from "./processText";
 
 export interface Song {
   id: string;
@@ -39,7 +40,7 @@ export async function fetchSongList(
       params: { songMode, ...(email && { email }) },
     });
 
-    return response.data;
+    return formatSongs(response.data);
   } catch (error) {
     console.error("Error fetching song list:", error);
     return [];
@@ -69,7 +70,7 @@ export async function fetchTopSongs(): Promise<Song[]> {
     const response = await client.get("top-songs");
 
     console.log("jkhfd", response.data.topSongs);
-    return response.data.topSongs;
+    return formatSongs(response.data.topSongs);
   } catch (error) {
     console.error("Error fetching song list:", error);
     return [];
@@ -83,7 +84,7 @@ export async function fetchLatestSongs(): Promise<Song[]> {
     const response = await client.get("latest-songs");
 
     console.log("jkhfd", response.data.latestSongs);
-    return response.data.latestSongs;
+    return formatSongs(response.data.latestSongs);
   } catch (error) {
     console.error("Error fetching song list:", error);
     return [];

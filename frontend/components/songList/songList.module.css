@@ -29,6 +29,9 @@
 }
 .list {
   /* overflow-y: auto; */
+  /* max-height: calc(100vh - 50px);
+   */
+  /* max-height: 30rem; */
   max-height: calc(100vh - 500px);
   width: 100%;
   /* flex-grow: 1; */

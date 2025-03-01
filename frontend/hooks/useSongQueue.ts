@@ -2,39 +2,20 @@
 import { useEffect, useState } from "react";
 import { Song } from "@/utils/backendAPI";
 import { fetchSongList } from "@/utils/backendAPI";
+import { formatSongs } from "@/utils/processText";
 
 interface SongQueueHook {
   currentSong: Song | undefined;
   songQueue: Song[];
   currentSongPosition: number;
   changeSongMode: (mode: songMode) => void;
-  changeSong: (positionChange: number) => void;
+  skipSong: (positionChange: number) => void;
+  changeSong: (newPosition: number) => void;
   onSongFinish: () => void;
+  changeSongQueue: (songs: Song[], position: number) => void;
 }
 
 export type songMode = "discovery" | "normal";
-
-function formatSongs(songs: Song[]): Song[] {
-  const formatDate = (date: string): string => {
-    const publishedTime = new Date(date);
-    const now = new Date();
-    const diffInMs = now.getTime() - publishedTime.getTime();
-
-    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-    if (diffInHours < 24) {
-      return `${diffInHours} hours ago`;
-    }
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays} days ago`;
-  };
-
-  return songs.map((song) => ({
-    ...song,
-    artistName: song.artistName.replace(/- Topic$/i, "").trim(),
-    published: formatDate(song.published),
-  }));
-}
 
 export const useSongQueue = (): SongQueueHook => {
   const [songQueue, setSongQueue] = useState<Song[]>([]);
@@ -48,6 +29,14 @@ export const useSongQueue = (): SongQueueHook => {
       fetchSongs(songMode);
     }
   }, []);
+
+  const changeSongQueue = (songs: Song[], position = 0) => {
+    setSongQueue(songs);
+    //have to do this with songs, since songqueue wont be updated yet
+    //this isn't great
+    setCurrentSongPosition(position);
+    setCurrentSong(songs[position]);
+  };
 
   const fetchSongs = async (newMode: songMode) => {
     const songObjects = await fetchSongList("1", newMode);
@@ -63,7 +52,7 @@ export const useSongQueue = (): SongQueueHook => {
     fetchSongs(newMode);
   };
 
-  const changeSong = (positionChange: number) => {
+  const skipSong = (positionChange: number) => {
     setCurrentSongPosition((prevPosition) => {
       const newPosition = prevPosition + positionChange;
       if (newPosition < 0 || newPosition >= songQueue.length) {
@@ -75,8 +64,13 @@ export const useSongQueue = (): SongQueueHook => {
     });
   };
 
+  const changeSong = (newPosition: number) => {
+    setCurrentSongPosition(newPosition);
+    setCurrentSong(songQueue[newPosition]);
+  };
+
   const onSongFinish = () => {
-    changeSong(1);
+    skipSong(1);
   };
 
   return {
@@ -84,7 +78,9 @@ export const useSongQueue = (): SongQueueHook => {
     songQueue,
     currentSongPosition,
     changeSongMode,
+    skipSong,
     changeSong,
     onSongFinish,
+    changeSongQueue,
   };
 };

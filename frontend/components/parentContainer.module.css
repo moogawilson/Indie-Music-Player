@@ -93,11 +93,14 @@
   display: flex;
   gap: 0.35rem;
   background-color: aquamarine;
+  /* height: 10%; */
 }
 
 .playerControls {
   display: flex;
   height: 6rem;
+  /* */
+  /* height: 10%; */
 }
 
 .backgroundContainer {

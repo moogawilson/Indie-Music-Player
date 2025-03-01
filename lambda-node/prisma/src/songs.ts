@@ -107,6 +107,7 @@ export const readLikedSongs = async (email: string) => {
           select: {
             id: true,
             title: true,
+            published: true,
             artist: {
               select: {
                 channelTitle: true,
@@ -116,8 +117,6 @@ export const readLikedSongs = async (email: string) => {
         },
       },
     });
-
-    return result;
   } catch (err) {
     console.error(err);
   }
@@ -133,6 +132,7 @@ export const readTopSongs = async () => {
       select: {
         id: true,
         title: true,
+        published: true,
         artist: {
           select: {
             channelTitle: true,
@@ -140,8 +140,10 @@ export const readTopSongs = async () => {
         },
       },
     });
-
-    return result;
+    return result.map(({ artist, ...song }) => ({
+      ...song,
+      artistName: artist?.channelTitle,
+    }));
   } catch (err) {
     console.error(err);
   }
@@ -157,6 +159,7 @@ export const readLatestSongs = async () => {
       select: {
         id: true,
         title: true,
+        published: true,
         artist: {
           select: {
             channelTitle: true,
@@ -165,7 +168,10 @@ export const readLatestSongs = async () => {
       },
     });
 
-    return result;
+    return result.map(({ artist, ...song }) => ({
+      ...song,
+      artistName: artist?.channelTitle,
+    }));
   } catch (err) {
     console.error(err);
   }

@@ -9,7 +9,7 @@ import { usePlayer } from "@/context/PlayerContext";
 
 const PlayerControls: React.FC = () => {
   const {
-    changeSong,
+    skipSong,
     isPlaying,
     togglePlay,
     currentTime,
@@ -21,16 +21,16 @@ const PlayerControls: React.FC = () => {
 
   useEffect(() => {
     if (isFinished == true) {
-      changeSong(1);
+      skipSong(1);
     }
   }, [isFinished]);
 
   return (
     <div className={styles.controls}>
       <div className={styles.buttons}>
-        <SkipButton skipAmount={"skip-back"} changeSong={changeSong} />
+        <SkipButton skipAmount={"skip-back"} changeSong={skipSong} />
         <PlayButton isPlaying={isPlaying} togglePlay={togglePlay} />
-        <SkipButton skipAmount={"skip-foward"} changeSong={changeSong} />
+        <SkipButton skipAmount={"skip-foward"} changeSong={skipSong} />
       </div>
       <div className={styles.progressBar}>
         <PlayerProgress
