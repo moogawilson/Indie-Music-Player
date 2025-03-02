@@ -100,3 +100,82 @@ export const checkIfCatalogued = async (id: string) => {
     return false;
   }
 };
+
+export const readLikedSongs = async (email: string) => {
+  try {
+    const result = await prisma.user.findUnique({
+      where: { email: email },
+      select: {
+        likedSongs: {
+          select: {
+            id: true,
+            title: true,
+            published: true,
+            artist: {
+              select: {
+                channelTitle: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const readTopSongs = async () => {
+  try {
+    const result = await prisma.song.findMany({
+      orderBy: {
+        numberofLikes: "desc",
+      },
+      take: 25,
+      select: {
+        id: true,
+        title: true,
+        published: true,
+        artist: {
+          select: {
+            channelTitle: true,
+          },
+        },
+      },
+    });
+    return result.map(({ artist, ...song }) => ({
+      ...song,
+      artistName: artist?.channelTitle,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const readLatestSongs = async () => {
+  try {
+    const result = await prisma.song.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 25,
+      select: {
+        id: true,
+        title: true,
+        published: true,
+        artist: {
+          select: {
+            channelTitle: true,
+          },
+        },
+      },
+    });
+
+    return result.map(({ artist, ...song }) => ({
+      ...song,
+      artistName: artist?.channelTitle,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+};

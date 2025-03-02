@@ -9,7 +9,11 @@ import PlayerControls from "./youtubePlayer/PlayerControls";
 import SongInfo from "./songInfo/songInfo";
 import RandomBox from "./randomBox/randomBox";
 import Background from "./background/background";
-export default async function ParentContainer() {
+export default async function ParentContainer({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <Background />
@@ -28,7 +32,7 @@ export default async function ParentContainer() {
             </div>
             <div className={styles.randomContainer}>
               <div className={styles.randomContainerToo}>
-                <div className={styles.randomBox}>{/* <RandomBox /> */}</div>
+                <div className={styles.randomBox}>{children}</div>
 
                 <div className={styles.playerLikeContainer}>
                   <div className={styles.youtubeWindow}>

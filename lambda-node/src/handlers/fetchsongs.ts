@@ -1,7 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { getSongSelections } from "../utils/selectorAPI";
 import { authenticateUser } from "../middleware/authenticate";
-import { addLike } from "../../prisma/src/songs";
+import {
+  addLike,
+  readLikedSongs,
+  readTopSongs,
+  readLatestSongs,
+} from "../../prisma/src/songs";
 import { error } from "console";
 
 if (!process.env.FRONTEND_URL) {
@@ -77,6 +82,77 @@ export const likeSong = async (
       headers: CORS_HEADERS,
 
       body: JSON.stringify({ message: "song has been liked :)" }),
+    };
+  } catch (e) {
+    console.error("Error fetching songs:", e);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: "Internal Server Error." }),
+    };
+  }
+};
+
+export const fetchLikedSongs = async (
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
+  try {
+    const user = await authenticateUser(event);
+    if (!user?.email) {
+      return {
+        statusCode: 401,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({ message: "Unauthorized: No token provided." }),
+      };
+    }
+    const likedSongs = await readLikedSongs(user.email);
+    console.log(likedSongs);
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+
+      body: JSON.stringify({ likedSongs: likedSongs }),
+    };
+  } catch (e) {
+    console.error("Error fetching songs:", e);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: "Internal Server Error." }),
+    };
+  }
+};
+
+export const fetchTopSongs = async (
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
+  try {
+    const topSongs = await readTopSongs();
+    console.log(topSongs);
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+
+      body: JSON.stringify({ topSongs: topSongs }),
+    };
+  } catch (e) {
+    console.error("Error fetching songs:", e);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: "Internal Server Error." }),
+    };
+  }
+};
+
+export const fetchLatestSongs = async (
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
+  try {
+    const latestSongs = await readLatestSongs();
+    console.log(latestSongs);
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+
+      body: JSON.stringify({ latestSongs: latestSongs }),
     };
   } catch (e) {
     console.error("Error fetching songs:", e);

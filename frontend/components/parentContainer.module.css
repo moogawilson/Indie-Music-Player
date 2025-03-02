@@ -1,6 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+  /* flex-grow: 1; */
+
   height: 100vh;
   gap: 0.35rem;
 }
@@ -51,8 +53,11 @@
   flex-direction: column;
   flex-grow: 1;
   display: flex;
+  /* height: 10px; */
+  /* height: 100%; */
   /* background-color: rgb(0, 0, 0); */
   border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .likeStuff {
@@ -88,11 +93,14 @@
   display: flex;
   gap: 0.35rem;
   background-color: aquamarine;
+  /* height: 10%; */
 }
 
 .playerControls {
   display: flex;
   height: 6rem;
+  /* */
+  /* height: 10%; */
 }
 
 .backgroundContainer {

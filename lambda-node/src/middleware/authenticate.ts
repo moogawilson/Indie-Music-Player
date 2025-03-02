@@ -55,7 +55,7 @@ const getSessionToken = (event: APIGatewayProxyEvent) => {
 
 export const authenticateJWT = async (token: string) => {
   try {
-    console.log(NEXTAUTH_SECRET);
+    console.log("secret", NEXTAUTH_SECRET);
     if (!NEXTAUTH_SECRET) {
       throw new Error("Internal Server Error: Missing NEXTAUTH_SECRET");
     }

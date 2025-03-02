@@ -11,7 +11,8 @@ interface PlayerContextProps {
   currentSong: Song | undefined;
   songQueue: Song[];
   currentSongPosition: number;
-  changeSong: (position: number) => void;
+  skipSong: (positionChange: number) => void;
+  changeSong: (newPosition: number) => void;
   changeSongMode: (mode: songMode) => void;
   isPlaying: boolean;
   togglePlay: () => void;
@@ -21,6 +22,7 @@ interface PlayerContextProps {
   playerReady: boolean;
   playerRef: React.MutableRefObject<any>;
   isFinished: boolean;
+  changeSongQueue: (songs: Song[], position: number) => void;
 }
 
 interface PlayerProviderProps {
@@ -35,8 +37,10 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     songQueue,
     currentSongPosition,
     changeSongMode,
+    skipSong,
     changeSong,
     onSongFinish,
+    changeSongQueue,
   } = useSongQueue();
   const {
     isPlaying,
@@ -55,6 +59,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
         currentSong,
         songQueue,
         currentSongPosition,
+        skipSong,
         changeSong,
         changeSongMode,
         isPlaying,
@@ -65,6 +70,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
         playerReady,
         playerRef,
         isFinished,
+        changeSongQueue,
       }}
     >
       {children}{" "}

@@ -10,7 +10,7 @@ import { processText } from "@/utils/processText";
 //this file is very messy and need work
 
 const SongQueue: React.FC = () => {
-  const { currentSong, songQueue, currentSongPosition } = usePlayer();
+  const { currentSong, songQueue, currentSongPosition, skipSong } = usePlayer();
   const [colour, setColour] = useState<string>("rgb(0,0,0)");
 
   useEffect(() => {
@@ -25,6 +25,13 @@ const SongQueue: React.FC = () => {
       getNewColour(currentSong.id);
     }
   });
+
+  const playSong = (index: number) => {
+    console.log("the index is ", index);
+
+    skipSong(index);
+    // changeSong(index);
+  };
 
   let currentSongProcessed = currentSong;
   if (currentSong) {
@@ -74,7 +81,9 @@ const SongQueue: React.FC = () => {
       {displayedQueue && (
         <div className={styles.queueList}>
           {displayedQueue?.map((song, index) => (
-            <div
+            <button
+              type="button"
+              onClick={() => playSong(index + 1)}
               key={song.id || `${song.id}-${index}`}
               className={styles.queueItem}
             >
@@ -90,7 +99,7 @@ const SongQueue: React.FC = () => {
               </div>
               <h3 className={styles.songName}>{song?.artistName}</h3>
               <h1 className={styles.artistName}>{song?.title}</h1>
-            </div>
+            </button>
           ))}
         </div>
       )}

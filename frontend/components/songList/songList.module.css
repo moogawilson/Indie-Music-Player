@@ -1,0 +1,58 @@
+.songContainer {
+  /* background-color: blue; */
+}
+
+.songName {
+  position: absolute;
+  left: 20%;
+  top: 20%;
+}
+
+.thumbnailContainer {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  gap: 0.5em;
+  width: 4rem;
+  height: 4rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.thumbnailImage {
+  height: auto;
+  width: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.78);
+}
+.list {
+  /* overflow-y: auto; */
+  /* max-height: calc(100vh - 50px);
+   */
+  /* max-height: 30rem; */
+  max-height: calc(100vh - 500px);
+  width: 100%;
+  /* flex-grow: 1; */
+  margin-top: 3rem;
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow-y: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  /* overflow: scroll; */
+}
+.listItem {
+  /* background-color: rgb(16, 91, 156); */
+  display: flex;
+
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  height: 5rem;
+  width: 100%;
+  border-radius: 15px;
+}

@@ -113,6 +113,93 @@ Resources:
           - .prisma=file
           - .so.node=file
 
+  FetchLikedSongs:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub fetch-liked-songs-${DeploymentEnvironment}
+      CodeUri: ./
+      Handler: src/handlers/fetchsongs.fetchLikedSongs
+      Runtime: nodejs18.x
+      Timeout: 30
+      Events:
+        FetchSongsAPI:
+          Type: Api
+          Properties:
+            Path: /liked-songs
+            Method: get
+            RestApiId: !Ref ExistingApi
+      Environment:
+        Variables:
+          NEXTAUTH_SECRET: !Ref NextAuthSecret
+          FRONTEND_URL: !Ref FrontendUrl
+          DATABASE_URL: !Ref DatabaseUrl
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/fetchsongs.ts
+        Loader:
+          - .prisma=file
+          - .so.node=file
+
+  FetchTopSongs:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub fetch-top-songs-${DeploymentEnvironment}
+      CodeUri: ./
+      Handler: src/handlers/fetchsongs.fetchTopSongs
+      Runtime: nodejs18.x
+      Timeout: 30
+      Events:
+        FetchSongsAPI:
+          Type: Api
+          Properties:
+            Path: /top-songs
+            Method: get
+            RestApiId: !Ref ExistingApi
+      Environment:
+        Variables:
+          NEXTAUTH_SECRET: !Ref NextAuthSecret
+          FRONTEND_URL: !Ref FrontendUrl
+          DATABASE_URL: !Ref DatabaseUrl
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/fetchsongs.ts
+        Loader:
+          - .prisma=file
+          - .so.node=file
+
+  FetchLatestSongs:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub fetch-latest-songs-${DeploymentEnvironment}
+      CodeUri: ./
+      Handler: src/handlers/fetchsongs.fetchLatestSongs
+      Runtime: nodejs18.x
+      Timeout: 30
+      Events:
+        FetchSongsAPI:
+          Type: Api
+          Properties:
+            Path: /latest-songs
+            Method: get
+            RestApiId: !Ref ExistingApi
+      Environment:
+        Variables:
+          NEXTAUTH_SECRET: !Ref NextAuthSecret
+          FRONTEND_URL: !Ref FrontendUrl
+          DATABASE_URL: !Ref DatabaseUrl
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/fetchsongs.ts
+        Loader:
+          - .prisma=file
+          - .so.node=file
+
   FetchUser:
     Type: AWS::Serverless::Function
     Properties:
