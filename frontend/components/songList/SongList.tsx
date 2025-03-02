@@ -30,6 +30,7 @@ const SongList: React.FC<songsProps> = ({ songs }) => {
             className={styles.listItem}
             type="button"
             onClick={() => playSong(index)}
+            key={`${song.id}-list-${index}`}
           >
             <div className={styles.thumbnailContainer}>
               <Image
