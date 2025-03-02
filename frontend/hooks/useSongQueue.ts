@@ -40,10 +40,10 @@ export const useSongQueue = (): SongQueueHook => {
 
   const fetchSongs = async (newMode: songMode) => {
     const songObjects = await fetchSongList("1", newMode);
-    const formattedSongs = formatSongs(songObjects);
+    // const formattedSongs = formatSongs(songObjects);
 
-    setSongQueue(formattedSongs);
-    setCurrentSong(formattedSongs[currentSongPosition]);
+    setSongQueue(songObjects);
+    setCurrentSong(songObjects[currentSongPosition]);
   };
 
   const changeSongMode = (newMode: songMode) => {
